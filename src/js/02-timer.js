@@ -7,47 +7,43 @@ const daysValue = document.querySelector('[data-days]');
 const hoursValue = document.querySelector('[data-hours]');
 const minutesValue = document.querySelector('[data-minutes]');
 const secondsValue = document.querySelector('[data-seconds]');
-let intervalCount = 1; 
+let intervalCount = 1;
 
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) { intervalCount = setInterval(() => {   
-    const currentDate = new Date();
-    if (selectedDates[0] > currentDate) {
-      startButton.removeAttribute('disabled');
-      
-      const endTime = selectedDates[0].getTime();
-      const startTime = currentDate.getTime();
-      const objDate = convertMs(endTime - startTime);
-
-      /*daysValue.textContent = addLeadingZero(objDate.days);
+  onClose(selectedDates) {
+    intervalCount = setInterval(() => {
+      const currentDate = new Date();
+      if (selectedDates[0] > currentDate) {
+        startButton.removeAttribute('disabled');
+        
+        const endTime = selectedDates[0].getTime();
+        const startTime = currentDate.getTime();
+        const objDate = convertMs(endTime - startTime);
+          
+        
+        /*daysValue.textContent = addLeadingZero(objDate.days);
       hoursValue.textContent = addLeadingZero(objDate.hours);
       minutesValue.textContent = addLeadingZero(objDate.minutes);
       secondsValue.textContent = addLeadingZero(objDate.seconds);*/
-function timerUp() {
-        
+          
+        startButton.addEventListener('click', timerUp);
+        function timerUp() {
           daysValue.textContent = addLeadingZero(objDate.days);
           hoursValue.textContent = addLeadingZero(objDate.hours);
           minutesValue.textContent = addLeadingZero(objDate.minutes);
-             secondsValue.textContent = addLeadingZero(objDate.seconds);
-             console.log(objDate)
-        
-      }
-        startButton.addEventListener('click', timerUp);
-        
-        
-    } else {
-        clearInterval(intervalCount)
+          secondsValue.textContent = addLeadingZero(objDate.seconds);
+        }
+      } else {
+        clearInterval(intervalCount);
         alert('Please choose a date in the future');
         startButton.disabled = 'true';
-    }
-      
-  }, 1000);
-      
-  }, 
+      }
+    }, 1000);
+  },
 };
 
 flatpickr(inputDate, options);
