@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
+
 const flatpickr = require('flatpickr');
 const inputDate = document.querySelector('#datetime-picker');
 const startButton = document.querySelector('[data-start]');
@@ -15,34 +17,28 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    intervalCount = setInterval(() => {
-      const currentDate = new Date();
-      if (selectedDates[0] > currentDate) {
-        startButton.removeAttribute('disabled');
-        
-        const endTime = selectedDates[0].getTime();
-        const startTime = currentDate.getTime();
-        const objDate = convertMs(endTime - startTime);
-          
-        
-        /*daysValue.textContent = addLeadingZero(objDate.days);
-      hoursValue.textContent = addLeadingZero(objDate.hours);
-      minutesValue.textContent = addLeadingZero(objDate.minutes);
-      secondsValue.textContent = addLeadingZero(objDate.seconds);*/
-          
-        startButton.addEventListener('click', timerUp);
-        function timerUp() {
+    const currentDate = new Date();
+    if (selectedDates[0] > currentDate) {
+      startButton.removeAttribute('disabled');
+      startButton.addEventListener('click', timerUp);
+
+      function timerUp() {
+        intervalCount = setInterval(() => {
+           const currentDateNew = new Date();
+          const endTime = selectedDates[0].getTime();
+          const startTime = currentDateNew.getTime();
+          const objDate = convertMs(endTime - startTime);
           daysValue.textContent = addLeadingZero(objDate.days);
           hoursValue.textContent = addLeadingZero(objDate.hours);
           minutesValue.textContent = addLeadingZero(objDate.minutes);
           secondsValue.textContent = addLeadingZero(objDate.seconds);
-        }
-      } else {
-        clearInterval(intervalCount);
-        alert('Please choose a date in the future');
-        startButton.disabled = 'true';
+        }, 1000);
       }
-    }, 1000);
+    } else {
+      clearInterval(intervalCount);
+      Notiflix.Notify.failure('Please choose a date in the future');
+      startButton.disabled = 'true';
+    }
   },
 };
 
