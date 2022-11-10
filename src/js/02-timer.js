@@ -3,7 +3,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
 const flatpickr = require('flatpickr');
-const inputDate = document.querySelector('#datetime-picker');
 const startButton = document.querySelector('[data-start]');
 const daysValue = document.querySelector('[data-days]');
 const hoursValue = document.querySelector('[data-hours]');
@@ -18,7 +17,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const currentDate = new Date();
-    
+
     if (selectedDates[0] > currentDate) {
       startButton.removeAttribute('disabled');
       startButton.addEventListener('click', timerUp);
@@ -43,7 +42,7 @@ const options = {
   },
 };
 
-flatpickr(inputDate, options);
+flatpickr('#datetime-picker', options);
 
 function addLeadingZero(value) {
   return value.toString().padStart(2, 0);
