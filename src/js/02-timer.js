@@ -18,6 +18,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const currentDate = new Date();
+    
     if (selectedDates[0] > currentDate) {
       startButton.removeAttribute('disabled');
       startButton.addEventListener('click', timerUp);
