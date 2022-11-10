@@ -7,29 +7,27 @@ const daysValue = document.querySelector('[data-days]');
 const hoursValue = document.querySelector('[data-hours]');
 const minutesValue = document.querySelector('[data-minutes]');
 const secondsValue = document.querySelector('[data-seconds]');
-const currentDate = new Date();
+let intervalCount = 1; 
+
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) { setInterval(() => {   
-  
+  onClose(selectedDates) { intervalCount = setInterval(() => {   
+    const currentDate = new Date();
     if (selectedDates[0] > currentDate) {
       startButton.removeAttribute('disabled');
       
       const endTime = selectedDates[0].getTime();
       const startTime = currentDate.getTime();
       const objDate = convertMs(endTime - startTime);
-console.log(objDate);
+
       /*daysValue.textContent = addLeadingZero(objDate.days);
       hoursValue.textContent = addLeadingZero(objDate.hours);
       minutesValue.textContent = addLeadingZero(objDate.minutes);
       secondsValue.textContent = addLeadingZero(objDate.seconds);*/
-
-        startButton.addEventListener('click', timerUp);
-        
-        function timerUp() {
+function timerUp() {
         
           daysValue.textContent = addLeadingZero(objDate.days);
           hoursValue.textContent = addLeadingZero(objDate.hours);
@@ -38,11 +36,18 @@ console.log(objDate);
              console.log(objDate)
         
       }
+        startButton.addEventListener('click', timerUp);
+        
+        
     } else {
-      alert('Please choose a date in the future');
-      startButton.disabled = 'true';
-    }}, 1000);
-  },
+        clearInterval(intervalCount)
+        alert('Please choose a date in the future');
+        startButton.disabled = 'true';
+    }
+      
+  }, 1000);
+      
+  }, 
 };
 
 flatpickr(inputDate, options);
