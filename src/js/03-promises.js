@@ -17,10 +17,22 @@ function call(evt) {
 
 form.addEventListener('submit', start);
 
+
+
 function start(evt) {
   evt.preventDefault();
   for (let i = 0; i < inputObj.amount; i += 1) {
-    createPromise(inputObj.position, inputObj.delay);
+    createPromise(inputObj.position, inputObj.delay)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.success(
+          `✅ Fulfilled promise ${position} in ${delay}ms`
+        );
+      })
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
+      });
     inputObj.position += 1;
   }
 }
@@ -28,19 +40,25 @@ function start(evt) {
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   const promise = new Promise((resolve, reject) => {
-    const result = {
-      position,
-      delay,
-    };
+    setTimeout(() => {
+      const result = {
+        position,
+        delay,
+      };
 
-    if (shouldResolve) {
-      resolve(result);
-    } else {
-      reject(result);
-    }
-  })
+      if (shouldResolve) {
+        resolve(result);
+      } else {
+        reject(result);
+      }
+    }, delay);
+  });
+  return promise;
+}
 
-  promise.then(({ position, delay }) => { 
+
+
+/*promise.then(({ position, delay }) => { 
     setTimeout(() => { 
         Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
     }, delay)
@@ -50,5 +68,4 @@ function createPromise(position, delay) {
            Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       }, delay)
 
-    })
-}
+    })*/
