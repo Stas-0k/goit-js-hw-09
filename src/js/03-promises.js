@@ -33,7 +33,7 @@ function start(evt) {
           `❌ Rejected promise ${position} in ${delay}ms`
         );
       });
-    inputObj.position += 1;
+    inputObj.delay += inputObj.step;
   }
 }
 
