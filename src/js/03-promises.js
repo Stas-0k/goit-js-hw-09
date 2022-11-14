@@ -11,7 +11,7 @@ const inputObj = {
 form.addEventListener('input', call);
 
 function call(evt) {
-  inputObj[evt.target.name] = evt.target.value;
+  inputObj[evt.target.name] = Number(evt.target.value);
   console.log(inputObj);
 }
 
